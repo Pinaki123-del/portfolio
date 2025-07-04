@@ -296,7 +296,7 @@
                 </form> -->
                 <form id="contact-form" class="contact-form" action="https://formspree.io/f/paulpinaki45@gmail.com" method="POST">
     <div class="form-group">
-        <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <input type="text" id="form_name" name="from_name" placeholder="Your Name" required>
     </div>
     <div class="form-group">
         <input type="email" id="email" name="email" placeholder="Your Email" required>
@@ -323,5 +323,36 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function() {
+    // Initialize EmailJS with your Public Key
+    emailjs.init("2c_dP9tArkYXR0dPU"); // Replace with your actual public key
+    
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formMessage = document.getElementById('form-message');
+      
+      // Send the form using EmailJS
+      emailjs.sendForm('service_vm2ge0i', 'template_ychtma7', this)
+        .then(() => {
+          formMessage.textContent = 'Message sent successfully!';
+          formMessage.className = 'success';
+          this.reset();
+        }, (error) => {
+          formMessage.textContent = 'Failed to send message. Please try again.';
+          formMessage.className = 'error';
+          console.error('EmailJS error:', error);
+        })
+        .finally(() => {
+          formMessage.style.display = 'block';
+          setTimeout(() => {
+            formMessage.style.display = 'none';
+          }, 5000);
+        });
+    });
+  })();
+</script>
 </body>
 </html>
